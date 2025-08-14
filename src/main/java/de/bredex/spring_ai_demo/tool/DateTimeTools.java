@@ -8,12 +8,12 @@ import java.time.LocalTime;
 public class DateTimeTools {
 
     @Tool(description = "Get the current time in the user's timezone")
-    String currentTime() {
+    public String currentTime() {
         return LocalTime.now().toString();
     }
 
     @Tool(description = "Get the current date in the user's timezone")
-    String currentDate() {
+    public String currentDate() {
         return LocalDate.now().toString();
     }
 }
