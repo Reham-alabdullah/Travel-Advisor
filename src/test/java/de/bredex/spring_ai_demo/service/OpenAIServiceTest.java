@@ -31,6 +31,12 @@ class OpenAIServiceTest {
     }
     @Disabled
     @Test
+    void testToolCalling() {
+        final String response = this.service.generateText("What time is it?");
+        System.out.printf("AI: %s%n", response);
+    }
+    @Disabled
+    @Test
     void testGenerateImage() {
         final Image image = this.service.generateImage("A cat holding an ice cream");
         System.out.printf("Generated image of a cat: %s%n", image.getUrl());

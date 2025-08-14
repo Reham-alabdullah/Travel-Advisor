@@ -1,5 +1,6 @@
 package de.bredex.spring_ai_demo.service;
 
+import de.bredex.spring_ai_demo.tool.DateTimeTools;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.content.Media;
@@ -35,7 +36,10 @@ public class OpenAIService {
     }
 
     public String generateText(String prompt) {
-        return this.chatClient.prompt(prompt).call().content();
+        return this.chatClient.prompt(prompt)
+                .tools(new DateTimeTools())
+                .call()
+                .content();
     }
 
     public Image generateImage(String prompt) {

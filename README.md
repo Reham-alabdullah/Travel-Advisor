@@ -5,6 +5,7 @@ This project demonstrates the integration of OpenAI's API with a Spring Boot app
 ## Features
 
 - chat model
+- tool calling
 - image generation
 - image classification
 - audio transcription
