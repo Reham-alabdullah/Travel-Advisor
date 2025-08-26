@@ -1,4 +1,4 @@
-package de.bredex.spring_ai_demo;
+package de.bredex.travel_advisor;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

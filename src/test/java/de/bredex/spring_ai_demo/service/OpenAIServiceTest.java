@@ -1,5 +1,6 @@
 package de.bredex.spring_ai_demo.service;
 
+import de.bredex.travel_advisor.service.OpenAIService;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.ai.content.Media;

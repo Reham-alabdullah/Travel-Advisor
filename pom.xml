@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>de.bredex</groupId>
-	<artifactId>spring-ai-demo</artifactId>
+	<artifactId>travel-advisor</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>spring-ai-demo</name>
+	<name>travel-advisor</name>
 	<description>Spring AI demo using Open AI</description>
 	<url/>
 	<licenses>

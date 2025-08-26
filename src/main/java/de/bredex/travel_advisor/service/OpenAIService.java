@@ -1,6 +1,6 @@
-package de.bredex.spring_ai_demo.service;
+package de.bredex.travel_advisor.service;
 
-import de.bredex.spring_ai_demo.tool.DateTimeTools;
+import de.bredex.travel_advisor.tool.DateTimeTools;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.content.Media;

@@ -1,4 +1,4 @@
-package de.bredex.spring_ai_demo.tool;
+package de.bredex.travel_advisor.tool;
 
 import org.springframework.ai.tool.annotation.Tool;
 
