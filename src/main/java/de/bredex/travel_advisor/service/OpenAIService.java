@@ -1,6 +1,10 @@
 package de.bredex.travel_advisor.service;
 
+import de.bredex.travel_advisor.domain.TravelSuggestion;
 import de.bredex.travel_advisor.tool.DateTimeTools;
+import de.bredex.travel_advisor.tool.TravelStyleTool;
+import de.bredex.travel_advisor.tool.UserPreferencesTools;
+import de.bredex.travel_advisor.tool.WebSearchTool;
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.content.Media;
@@ -23,23 +27,24 @@ import org.springframework.stereotype.Service;
 public class OpenAIService {
     private final ChatClient chatClient;
     private final ImageModel imageModel;
-    private final SpeechModel speechModel;
-    private final OpenAiAudioTranscriptionModel transcriptionModel;
-    private final EmbeddingModel embeddingModel;
 
-    public OpenAIService(ChatClient.Builder builder, ImageModel imageModel, SpeechModel speechModel, OpenAiAudioTranscriptionModel transcriptionModel, EmbeddingModel embeddingModel) {
-        this.chatClient = builder.build();
+    public OpenAIService(ChatClient.Builder builder, ImageModel imageModel) {
+        this.chatClient = builder
+                .defaultSystem("You're a helpful travel assistant.")
+                .build();
         this.imageModel = imageModel;
-        this.speechModel = speechModel;
-        this.transcriptionModel = transcriptionModel;
-        this.embeddingModel = embeddingModel;
     }
 
-    public String generateText(String prompt) {
+    public TravelSuggestion generateText(String prompt) {
         return this.chatClient.prompt(prompt)
-                .tools(new DateTimeTools())
+                .tools(
+                        new DateTimeTools(),
+                        new UserPreferencesTools(),
+                        new TravelStyleTool(),
+                        new WebSearchTool()
+                )
                 .call()
-                .content();
+                .entity(TravelSuggestion.class);
     }
 
     public Image generateImage(String prompt) {
@@ -54,37 +59,4 @@ public class OpenAIService {
         ).getResult().getOutput();
     }
 
-    public boolean catRecognizer(Media image) {
-        final String response = this.chatClient.prompt()
-                .user(userSpec -> userSpec
-                        .text("Decide whether or not there is a cat in the image. If there is a cat in the image return 'true', otherwise 'false'")
-                        .media(image))
-                .call()
-                .content();
-        return Boolean.parseBoolean(response);
-    }
-
-    public Speech generateSpeech(String prompt) {
-        final OpenAiAudioSpeechOptions speechOptions = OpenAiAudioSpeechOptions.builder()
-                .responseFormat(OpenAiAudioApi.SpeechRequest.AudioResponseFormat.MP3)
-                .speed(1.0f)
-                .model(OpenAiAudioApi.TtsModel.TTS_1.value)
-                .build();
-        final SpeechPrompt speechPrompt = new SpeechPrompt(prompt, speechOptions);
-        return this.speechModel.call(speechPrompt).getResult();
-    }
-
-    public String transcribe(Resource audio) {
-        final OpenAiAudioTranscriptionOptions transcriptionOptions = OpenAiAudioTranscriptionOptions.builder()
-                .language("en")
-                .temperature(0f)
-                .responseFormat(OpenAiAudioApi.TranscriptResponseFormat.TEXT)
-                .build();
-        final AudioTranscriptionPrompt transcriptionRequest = new AudioTranscriptionPrompt(audio, transcriptionOptions);
-        return this.transcriptionModel.call(transcriptionRequest).getResult().getOutput();
-    }
-
-    public float[] generateEmbedding(String text) {
-        return this.embeddingModel.embed(text);
-    }
 }

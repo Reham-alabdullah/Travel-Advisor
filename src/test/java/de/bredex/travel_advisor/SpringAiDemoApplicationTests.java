@@ -1,4 +1,4 @@
-package de.bredex.spring_ai_demo;
+package de.bredex.travel_advisor;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
